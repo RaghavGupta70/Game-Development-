@@ -1,25 +1,19 @@
-@{
-  Validation.RequireField("Username", "Username is required.");
-  Validation.RequireField("Email", "Email Address is required.");
-  Validation.RequireField("Password", "Password is required.");
+var mysql = require('mysql');
 
-  var db = Database.Open("LoginPage");
-  var Name = Request.Form["Username"];
-  var Description = Request.Form["Email"];
-  var Price = Request.Form["Password"];
+var con = mysql.createConnection({
 
-  if (IsPost && Validation.IsValid()) {
-      // Define the insert query. The values to assign to the
-      // columns in the Product table are defined as parameters
-      // with the VALUES keyword.
-      if(ModelState.IsValid) {
-          var insertQuery = "INSERT INTO Login (Username, Email, Password) " +
-              "VALUES (@0, @1, @2)";
-          db.Execute(insertQuery, Username,Email, Password);
-          
-      }
-  }
-}
+  database: "Logindatabse"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  var sql = "INSERT INTO Login (Username, Email,CPassword) VALUES (@0,@1,@2)";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("1 record inserted");
+  });
+});
 
 <!DOCTYPE html>
 <html>
@@ -74,7 +68,7 @@
         <h2>Sign Up</h2>
         <label>
           <span>Name</span>
-          <input name="Name" type="text" value="@Name">
+          <input name="Username" type="text" value="@Username">
         </label>
         <label>
           <span>Email</span>
@@ -82,7 +76,7 @@
         </label>
         <label>
           <span>Password</span>
-          <input name="Password" type="password" value="@Password">
+          <input name="CPassword" type="password" value="@CPassword">
         </label>
         <label>
           <span>Confirm Password</span>
