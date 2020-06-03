@@ -1,3 +1,26 @@
+@{
+  Validation.RequireField("Username", "Username is required.");
+  Validation.RequireField("Email", "Email Address is required.");
+  Validation.RequireField("Password", "Password is required.");
+
+  var db = Database.Open("LoginPage");
+  var Name = Request.Form["Username"];
+  var Description = Request.Form["Email"];
+  var Price = Request.Form["Password"];
+
+  if (IsPost && Validation.IsValid()) {
+      // Define the insert query. The values to assign to the
+      // columns in the Product table are defined as parameters
+      // with the VALUES keyword.
+      if(ModelState.IsValid) {
+          var insertQuery = "INSERT INTO Login (Username, Email, Password) " +
+              "VALUES (@0, @1, @2)";
+          db.Execute(insertQuery, Username,Email, Password);
+          
+      }
+  }
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,20 +74,24 @@
         <h2>Sign Up</h2>
         <label>
           <span>Name</span>
-          <input type="text">
+          <input name="Name" type="text" value="@Name">
         </label>
         <label>
           <span>Email</span>
-          <input type="email">
+          <input name="Email" type="email" value="@Email">
         </label>
         <label>
           <span>Password</span>
-          <input type="password">
+          <input name="Password" type="password" value="@Password">
         </label>
         <label>
           <span>Confirm Password</span>
-          <input type="password">
+          <input name="Password" type="password">
         </label>
+        if($('Password').html() == $('Confirm Password').html())
+          
+else
+    alert('div1 & div2 are different');
         <button type="button" class="submit">Sign Up Now</button>
       </div>
     </div>
