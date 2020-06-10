@@ -1,19 +1,4 @@
-var mysql = require('mysql');
 
-var con = mysql.createConnection({
-
-  database: "Logindatabse"
-});
-
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-  var sql = "INSERT INTO Login (Username, Email,CPassword) VALUES (@0,@1,@2)";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("1 record inserted");
-  });
-});
 
 <!DOCTYPE html>
 <html>
